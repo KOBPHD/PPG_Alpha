@@ -28,9 +28,16 @@ try:
 		while ser.in_waiting >= 1:
 			read_val = ser.readline().decode("utf-8")
 			read_val = read_val.strip("\r").strip("\n")
-			out_file.write(read_val)
+			#Handles double reads
+			if read_val.count(",") == 2:
+				x = len(read_val)//2
+				a = read_val[0:x]
+				b = read_val[x+1:]
+				out_file.write(a)
+				out_file.write(b)
+			else:
+				out_file.write(read_val)
 			ser.reset_input_buffer()
 
 except KeyboardInterrupt:
 	pass
-

@@ -41,7 +41,7 @@ void loop() {
   // put your main code here, to run repeatedly:
   if(reset0){
     ADC_val = analogRead(analogPin);
-    String out_str = String(millis())+","+String(ADC_val);
+    String out_str = String(millis())+","+String(ADC_val)+",";
     Serial.println(out_str);
     reset0 = false;
   }

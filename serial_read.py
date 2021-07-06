@@ -19,7 +19,7 @@ ser = serial.Serial(
 
 #In the directory where this file is run, create a CSV based on start datetime and write a header into it.
 out_file = open("{}.csv".format(now),"w")
-out_file.write("Counter,ADC\n")
+out_file.write("Counter,ADC,\n")
 
 #Infinite loop but breaks cleanly with CTRL+C. (Only tested on Windows systems.)
 print("Press CTRL+C to end.")
@@ -28,16 +28,15 @@ try:
 		while ser.in_waiting >= 1:
 			read_val = ser.readline().decode("utf-8")
 			read_val = read_val.strip("\r").strip("\n")
-			#Handles double reads
-			if read_val.count(",") == 2:
-				x = len(read_val)//2
-				a = read_val[0:x]
-				b = read_val[x+1:]
-				out_file.write(a)
-				out_file.write(b)
+			if read_val.count(",") > 2:
+				while read_val.count(",") >= 2:
+					first_val = "".join(read_val.split(",",2)[:2])
+					read_val = "".join(read_val.split(",",2)[2:])
+					out_file.write(first_val)
 			else:
 				out_file.write(read_val)
-			ser.reset_input_buffer()
+				ser.reset_input_buffer()
 
 except KeyboardInterrupt:
 	pass
+

@@ -30,7 +30,7 @@ try:
 			read_val = read_val.strip("\r").strip("\n")
 			if read_val.count(",") > 2:
 				while read_val.count(",") >= 2:
-					first_val = "".join(read_val.split(",",2)[:2])
+					first_val = ",".join(read_val.split(",",2)[:2])
 					read_val = "".join(read_val.split(",",2)[2:])
 					out_file.write(first_val)
 			else:
